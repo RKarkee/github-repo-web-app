@@ -1,8 +1,9 @@
 import React from "react";
-import { useTheme } from "../../hooks/useTheme";
+// import { useTheme } from "../../hooks/useTheme";
+import SearchContainer from "@/components/search";
 
 const Home: React.FC = () => {
-  const { theme } = useTheme();
+//   const { theme } = useTheme();
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 p-6">
@@ -10,18 +11,19 @@ const Home: React.FC = () => {
         {/* Hero Section */}
         <div className="text-center space-y-6">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white">
-            Welcome to{' '}
+            Welcome to{" "}
             <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
               Git Explorer
             </span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Discover, explore, and analyze GitHub repositories with powerful search capabilities and beautiful themes.
+            Discover, explore, and analyze GitHub repositories with powerful
+            search capabilities and beautiful themes.
           </p>
         </div>
 
         {/* Theme Status Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-200">
+        {/* <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-200">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             Theme Configuration Status
           </h2>
@@ -76,10 +78,10 @@ const Home: React.FC = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Instructions */}
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+        {/* <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-200 mb-2">
             How to Test Theme Functionality
           </h3>
@@ -89,7 +91,9 @@ const Home: React.FC = () => {
             <li>Refresh the page - your theme preference is saved</li>
             <li>All colors, backgrounds, and text adapt automatically</li>
           </ol>
-        </div>
+        </div> */}
+        {/* Search Section */}
+        <SearchContainer />
       </div>
     </div>
   );
