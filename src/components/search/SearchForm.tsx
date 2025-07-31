@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Search } from "lucide-react";
 import { SearchParams } from "@/types";
+import { DEFAULT_PER_PAGE, DEFAULT_SORT } from "@/constants";
 
 interface SearchFormProps {
   onSearch: (params: SearchParams) => void;
@@ -12,8 +13,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
   isLoading = false,
 }) => {
   const [query, setQuery] = useState("");
-  const [sort, setSort] = useState<"stars" | "forks" | "updated">("stars");
-  const [perPage, setPerPage] = useState<10 | 25 | 50>(25);
+  const [sort, setSort] = useState<"stars" | "forks" | "updated">(DEFAULT_SORT);
+  const [perPage, setPerPage] = useState<10 | 25 | 50>(DEFAULT_PER_PAGE);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

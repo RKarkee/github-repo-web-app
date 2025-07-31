@@ -1,6 +1,6 @@
+import { DEFAULT_SORT, GITHUB_API_BASE } from "@/constants";
 import { GitHubReadme, GitHubRepository, GitHubSearchResponse, SearchParams } from "@/types";
 
-const GITHUB_API_BASE = 'https://api.github.com';
 
 class GitHubService {
   private async makeRequest<T>(url: string): Promise<T> {
@@ -14,7 +14,7 @@ class GitHubService {
   }
 
   async searchRepositories(params: SearchParams): Promise<GitHubSearchResponse> {
-    const { query, sort = 'stars', order = 'desc', per_page = 25, page = 1 } = params;
+    const { query, sort = DEFAULT_SORT, order = 'desc', per_page = 25, page = 1 } = params;
     
     const searchParams = new URLSearchParams({
       q: query,

@@ -1,10 +1,7 @@
-import React from "react";
-// import { useTheme } from "../../hooks/useTheme";
 import SearchContainer from "@/components/search";
+import React from "react";
 
 const Home: React.FC = () => {
-  //   const { theme } = useTheme();
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 p-6">
       <div className="max-w-4xl mx-auto space-y-8">

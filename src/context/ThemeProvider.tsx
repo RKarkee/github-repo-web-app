@@ -1,14 +1,15 @@
 import React from "react";
 import { Theme, ThemeContext } from "@/hooks/useTheme";
 import { useEffect, useState } from "react";
+import { LOCAL_STORAGE_THEME_KEY } from "@/constants";
 
 const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   // Initialize with light theme as default, then check localStorage
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem("app-theme");
-    return saved === "dark" || saved === "light" ? saved : "light";
+    const saved = localStorage.getItem(LOCAL_STORAGE_THEME_KEY);
+    return saved === "dark" || saved === "light" ? saved : "dark";
   });
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     root.classList.add(theme);
     
     // Save to localStorage
-    localStorage.setItem("app-theme", theme);
+    localStorage.setItem(LOCAL_STORAGE_THEME_KEY, theme);
   }, [theme]);
 
   const toggleTheme = () => {
