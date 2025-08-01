@@ -46,6 +46,8 @@ A modern, responsive web application for searching and exploring GitHub reposito
 # Clone the repository
 git clone https://github.com/RKarkee/github-repo-app.git
 cd github-repo-app
+#if you have nvm install nvm in your device
+nvm use
 
 # Install dependencies
 npm install
