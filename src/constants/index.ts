@@ -1,4 +1,5 @@
-export const GITHUB_API_BASE = import.meta.env.VITE_GITHUB_API_BASE_URL ;
+export const GITHUB_API_BASE =
+  import.meta.env.VITE_GITHUB_API_BASE_URL || "https://api.github.com";
 export const DEFAULT_PER_PAGE = 25;
 export const DEFAULT_SORT = "stars";
 export const DEFAULT_ORDER = "desc";
