@@ -219,7 +219,20 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **React Community** - For amazing ecosystem and tools
 - **Tailwind CSS** - For utility-first CSS framework
 - **Lucide Icons** - For beautiful icon library
+## 🌐 Live Demo
 
+Experience the GitHub Repository Explorer in action:
+
+**🚀 [Live Application](https://github-repo-web-app-ten.vercel.app/)**
+
+The application is deployed on Vercel with automatic deployments from the main branch. You can:
+- Search for any GitHub repository
+- Explore repository details and statistics
+- View rendered README files
+- Toggle between light and dark themes
+- Experience the responsive design across devices
+
+> **Performance**: The live demo includes all features with optimized loading and caching for the best user experience.
 ## 📧 Contact
 
 - **GitHub**: [@RKarkee](https://github.com/RKarkee)
