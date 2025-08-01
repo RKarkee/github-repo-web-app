@@ -1,6 +1,6 @@
-import { githubService } from '@/services/GitHubService';
-import { SearchParams } from '@/types';
 import { useQuery } from '@tanstack/react-query';
+import { githubService } from '../services/GitHubService';
+import { SearchParams } from '../types';
 
 
 export const useRepositorySearch = (params: SearchParams, enabled: boolean = true) => {

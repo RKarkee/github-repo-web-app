@@ -1,5 +1,5 @@
 import React from "react";
-import { GitHubReadme } from "@/types";
+import { GitHubReadme } from "../../types";
 
 interface ReadmeRendererProps {
   readme: GitHubReadme | undefined;
@@ -54,14 +54,13 @@ interface ParagraphProps {
 }
 
 export type {
-    ReadmeRendererProps,
-    CodeBlockProps,
-    ImageProps,
-    LinkProps,
-    TableProps,
-    TableCellProps,
-    BlockquoteProps,
-    HeadingProps,
-    ParagraphProps
+  ReadmeRendererProps,
+  CodeBlockProps,
+  ImageProps,
+  LinkProps,
+  TableProps,
+  TableCellProps,
+  BlockquoteProps,
+  HeadingProps,
+  ParagraphProps,
 };
-

@@ -1,4 +1,4 @@
-import SearchContainer from "@/components/search";
+import SearchContainer from "../../components/search";
 import React from "react";
 
 const Home: React.FC = () => {

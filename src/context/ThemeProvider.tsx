@@ -1,7 +1,7 @@
 import React from "react";
-import { Theme, ThemeContext } from "@/hooks/useTheme";
+import { Theme, ThemeContext } from "../hooks/useTheme";
 import { useEffect, useState } from "react";
-import { LOCAL_STORAGE_THEME_KEY } from "@/constants";
+import { LOCAL_STORAGE_THEME_KEY } from "../constants";
 
 const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

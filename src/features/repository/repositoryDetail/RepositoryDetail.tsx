@@ -1,12 +1,12 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { useRepository, useRepositoryReadme } from "@/hooks/useQueryHooks";
-import LoadingSpinner from "@/common/loadingSpinner";
-import ErrorMessage from "@/common/errorMessage";
+import { useRepository, useRepositoryReadme } from "../../../hooks/useQueryHooks";
+import LoadingSpinner from "../../../common/loadingSpinner";
+import ErrorMessage from "../../../common/errorMessage";
 import RepositoryHeader from "../repositoryHeader";
-import RepositoryStats from "@/components/repoStats";
-import ReadmeRenderer from "@/components/readme/ReadmeRenderer";
+import RepositoryStats from "../../../components/repoStats";
+import ReadmeRenderer from "../../../components/readme/ReadmeRenderer";
 
 const RepositoryDetail: React.FC = () => {
   const { owner, repo } = useParams<{ owner: string; repo: string }>();

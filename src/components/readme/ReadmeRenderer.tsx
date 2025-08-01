@@ -5,7 +5,7 @@ import remarkBreaks from "remark-breaks";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import { FileText, ExternalLink, Copy, Check, Eye, Code } from "lucide-react";
-import LoadingSpinner from "@/common/loadingSpinner";
+import LoadingSpinner from "../../common/loadingSpinner";
 
 // Import highlight.js CSS
 import "highlight.js/styles/github-dark.css";

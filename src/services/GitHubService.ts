@@ -1,5 +1,5 @@
-import { DEFAULT_SORT, GITHUB_API_BASE } from "@/constants";
-import { GitHubReadme, GitHubRepository, GitHubSearchResponse, SearchParams } from "@/types";
+import { DEFAULT_SORT, GITHUB_API_BASE } from "../constants";
+import { GitHubReadme, GitHubRepository, GitHubSearchResponse, SearchParams } from "../types";
 
 
 class GitHubService {

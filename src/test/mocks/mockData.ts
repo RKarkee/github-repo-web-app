@@ -1,4 +1,4 @@
-import { GitHubRepository, GitHubReadme } from "@/types";
+import { GitHubRepository, GitHubReadme } from "../../types";
 
 export const mockRepository: GitHubRepository = {
   id: 1,

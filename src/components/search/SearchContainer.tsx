@@ -3,8 +3,8 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import SearchForm from "./SearchForm";
 import RepositoryCard from "../repositoryCard";
 import Pagination from "../pagination";
-import { SearchParams } from "@/types";
-import { useRepositorySearch } from "@/hooks/useQueryHooks";
+import { SearchParams } from "../../types";
+import { useRepositorySearch } from "../../hooks/useQueryHooks";
 
 const SearchContainer: React.FC = () => {
   const [searchParams, setSearchParams] = useState<SearchParams | null>(null);

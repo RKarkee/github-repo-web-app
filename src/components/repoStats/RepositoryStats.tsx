@@ -7,7 +7,7 @@ import {
   GitBranch,
   Calendar,
 } from "lucide-react";
-import { GitHubRepository } from "@/types";
+import { GitHubRepository } from "../../types";
 
 interface RepositoryStatsProps {
   repository: GitHubRepository;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExternalLink } from 'lucide-react';
-import { GitHubRepository } from '@/types';
+import { GitHubRepository } from '../../../types';
 
 
 interface RepositoryHeaderProps {

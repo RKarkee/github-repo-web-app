@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Search } from "lucide-react";
-import { SearchParams } from "@/types";
-import { DEFAULT_PER_PAGE, DEFAULT_SORT } from "@/constants";
+import { SearchParams } from "../../types";
+import { DEFAULT_PER_PAGE, DEFAULT_SORT } from "../../constants";
 
 interface SearchFormProps {
   onSearch: (params: SearchParams) => void;

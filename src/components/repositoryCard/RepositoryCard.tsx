@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Star, GitFork, Eye, Calendar } from "lucide-react";
-import { GitHubRepository } from "@/types";
+import { GitHubRepository } from "../../types";
 
 interface RepositoryCardProps {
   repository: GitHubRepository;
