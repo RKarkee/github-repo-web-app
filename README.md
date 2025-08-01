@@ -2,10 +2,10 @@
 
 A modern, responsive web application for searching and exploring GitHub repositories with detailed information and README rendering.
 
-![GitHub Repository Explorer](https://img.shields.io/badge/React-18.x-blue?style=for-the-badge&logo=react)
+![GitHub Repository Explorer](https://img.shields.io/badge/React-19.x-blue?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)
-![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?style=for-the-badge&logo=vite)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css)
 
 ## 🌟 Features
 
@@ -44,7 +44,7 @@ A modern, responsive web application for searching and exploring GitHub reposito
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/github-repo-app.git
+git clone https://github.com/RKarkee/github-repo-app.git
 cd github-repo-app
 
 # Install dependencies
@@ -60,7 +60,7 @@ Create a `.env` file in the root directory:
 
 ```env
 # Optional: GitHub Personal Access Token for higher rate limits
-VITE_GITHUB_API_BASE_URL=''
+VITE_GITHUB_API_BASE_URL='https://api.github.com' # Add this to your env file
 ```
 
 > **Note**: The app works without a token but has lower rate limits (60 requests/hour vs 5000 requests/hour with token)
