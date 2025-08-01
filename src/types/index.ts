@@ -10,6 +10,8 @@ export interface GitHubRepository {
   open_issues_count: number;
   updated_at: string;
   default_branch: string;
+  created_at: string;
+  language: string | null;
   owner: {
     login: string;
     avatar_url: string;
@@ -32,6 +34,15 @@ export interface SearchParams {
 }
 
 export interface GitHubReadme {
+  name: string;
+  path: string;
+  sha: string;
+  size: number;
+  url: string;
+  html_url: string;
+  git_url: string;
+  download_url: string;
+  type: string;
   content: string;
   encoding: string;
 }

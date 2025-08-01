@@ -5,7 +5,7 @@ import { GitHubReadme, GitHubRepository, GitHubSearchResponse, SearchParams } fr
 class GitHubService {
   private async makeRequest<T>(url: string): Promise<T> {
     const response = await fetch(url);
-    
+    console.log(response.status, response.ok);
     if (!response.ok) {
       throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
     }
