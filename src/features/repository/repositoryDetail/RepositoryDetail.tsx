@@ -16,7 +16,6 @@ const RepositoryDetail: React.FC = () => {
     isLoading: isLoadingRepo,
     error: repoError,
   } = useRepository(owner!, repo!, !!(owner && repo));
-console.log(repository)
   const {
     data: readme,
     isLoading: isLoadingReadme,
@@ -78,7 +77,7 @@ console.log(repository)
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              {repository.name} / README.md
+              README.md
             </h2>
           </div>
           <div className="p-6">
@@ -87,6 +86,7 @@ console.log(repository)
               isLoading={isLoadingReadme}
               error={readmeError}
               repositoryUrl={repository.html_url}
+              username={repository.name}
             />
           </div>
         </div>

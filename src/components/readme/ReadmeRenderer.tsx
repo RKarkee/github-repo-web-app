@@ -5,73 +5,33 @@ import remarkBreaks from "remark-breaks";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
 import { FileText, ExternalLink, Copy, Check, Eye, Code } from "lucide-react";
-import { GitHubReadme } from "@/types";
 import LoadingSpinner from "@/common/loadingSpinner";
-import { Element } from "hast";
 
 // Import highlight.js CSS
 import "highlight.js/styles/github-dark.css";
 import { JSX } from "react/jsx-runtime";
+import {     ReadmeRendererProps,
+    CodeBlockProps,
+    ImageProps,
+    LinkProps,
+    TableProps,
+    TableCellProps,
+    BlockquoteProps,
+    HeadingProps,
+    ParagraphProps } from "./ReadmeRenderer.interface";
 
-interface ReadmeRendererProps {
-  readme: GitHubReadme | undefined;
-  isLoading: boolean;
-  error: Error | null;
-  repositoryUrl: string;
-}
-
-interface CodeBlockProps {
-  node?: Element;
-  inline?: boolean;
-  className?: string;
-  children?: React.ReactNode;
-}
-
-interface ImageProps {
-  src?: string;
-  alt?: string;
-  title?: string;
-  width?: string | number;
-  height?: string | number;
-  style?: React.CSSProperties;
-}
-
-interface LinkProps {
-  href?: string;
-  children?: React.ReactNode;
-  title?: string;
-}
-
-interface TableProps {
-  children?: React.ReactNode;
-}
-
-interface TableCellProps {
-  children?: React.ReactNode;
-}
-
-interface BlockquoteProps {
-  children?: React.ReactNode;
-}
-
-interface HeadingProps {
-  children?: React.ReactNode;
-  level: 1 | 2 | 3 | 4 | 5 | 6;
-}
-
-interface ParagraphProps {
-  children?: React.ReactNode;
-  align?: string;
-}
 
 const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
   readme,
   isLoading,
   error,
   repositoryUrl,
+  username,
 }) => {
   const [copied, setCopied] = React.useState(false);
-  const [viewMode, setViewMode] = React.useState<'rendered' | 'raw'>('rendered');
+  const [viewMode, setViewMode] = React.useState<"rendered" | "raw">(
+    "rendered"
+  );
 
   const decodeBase64 = (encoded: string): string => {
     try {
@@ -81,7 +41,7 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
       for (let i = 0; i < binary.length; i++) {
         bytes[i] = binary.charCodeAt(i);
       }
-      return new TextDecoder('utf-8').decode(bytes);
+      return new TextDecoder("utf-8").decode(bytes);
     } catch {
       return "Error decoding README content";
     }
@@ -93,7 +53,7 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.error("Failed to copy text: ", err);
     }
   };
 
@@ -109,10 +69,9 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
           {error ? "Failed to load README" : "No README found"}
         </h3>
         <p className="text-gray-600 dark:text-gray-400 mb-4">
-          {error ? 
-            "There was an error loading the README file." : 
-            "This repository doesn't have a README file."
-          }
+          {error
+            ? "There was an error loading the README file."
+            : "This repository doesn't have a README file."}
         </p>
         <a
           href={`${repositoryUrl}#readme`}
@@ -127,22 +86,23 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
     );
   }
 
-  const content = readme.encoding === "base64" 
-    ? decodeBase64(readme.content) 
-    : readme.content;
+  const content =
+    readme.encoding === "base64"
+      ? decodeBase64(readme.content)
+      : readme.content;
 
   // Custom components for better rendering
-  const CustomCode: React.FC<CodeBlockProps> = ({ 
+  const CustomCode: React.FC<CodeBlockProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    node, 
-    inline, 
-    className, 
-    children, 
-    ...props 
+    node,
+    inline,
+    className,
+    children,
+    ...props
   }) => {
-    const match = /language-(\w+)/.exec(className || '');
-    const codeContent = String(children).replace(/\n$/, '');
-    
+    const match = /language-(\w+)/.exec(className || "");
+    const codeContent = String(children).replace(/\n$/, "");
+
     if (!inline && match) {
       return (
         <div className="relative group my-4">
@@ -153,7 +113,11 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
               className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-gray-700 rounded text-gray-300"
               title="Copy code"
             >
-              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+              {copied ? (
+                <Check className="h-4 w-4" />
+              ) : (
+                <Copy className="h-4 w-4" />
+              )}
             </button>
           </div>
           <pre className="bg-gray-900 text-gray-100 p-4 overflow-x-auto rounded-b-lg m-0">
@@ -166,8 +130,8 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
     }
 
     return (
-      <code 
-        className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700" 
+      <code
+        className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700"
         {...props}
       >
         {children}
@@ -175,51 +139,73 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
     );
   };
 
-  const CustomImage: React.FC<ImageProps> = ({ src, alt, title, width, height, style, ...props }) => {
+  const CustomImage: React.FC<ImageProps> = ({
+    src,
+    alt,
+    title,
+    width,
+    height,
+    style,
+    ...props
+  }) => {
     if (!src) return null;
-    
+
     // Handle relative URLs by converting them to absolute GitHub URLs
-    const imageSrc = src.startsWith('http') ? src : 
-      `https://raw.githubusercontent.com${repositoryUrl.replace('https://github.com', '')}/HEAD/${src}`;
-    
+    const imageSrc = src.startsWith("http")
+      ? src
+      : `https://raw.githubusercontent.com${repositoryUrl.replace(
+          "https://github.com",
+          ""
+        )}/HEAD/${src}`;
+
     // Check if it's a badge/shield or stat image
-    const isBadge = src.includes('shields.io') || 
-                   src.includes('badge') || 
-                   src.includes('img.shields.io') ||
-                   src.includes('github-readme-stats') ||
-                   alt?.toLowerCase().includes('badge') ||
-                   alt?.toLowerCase().includes('stat');
-    
+    const isBadge =
+      src.includes("shields.io") ||
+      src.includes("badge") ||
+      src.includes("img.shields.io") ||
+      src.includes("github-readme-stats") ||
+      alt?.toLowerCase().includes("badge") ||
+      alt?.toLowerCase().includes("stat");
+
     return (
-      <img 
-        src={imageSrc} 
-        alt={alt || ""} 
+      <img
+        src={imageSrc}
+        alt={alt || ""}
         title={title}
         width={width}
         height={height}
         style={{
-          maxWidth: '100%',
-          height: 'auto',
+          maxWidth: "100%",
+          height: "auto",
           ...style,
-          ...(isBadge && { 
-            display: 'inline-block', 
-            margin: '2px 4px',
-            verticalAlign: 'middle'
-          })
+          ...(isBadge && {
+            display: "inline-block",
+            margin: "2px 4px",
+            verticalAlign: "middle",
+          }),
         }}
-        className={`${isBadge ? 'inline-block align-middle' : 'block my-4 rounded-lg border border-gray-200 dark:border-gray-700'}`}
+        className={`${
+          isBadge
+            ? "inline-block align-middle"
+            : "block my-4 rounded-lg border border-gray-200 dark:border-gray-700"
+        }`}
         loading="lazy"
-        {...props} 
+        {...props}
       />
     );
   };
 
-  const CustomLink: React.FC<LinkProps> = ({ href, children, title, ...props }) => {
+  const CustomLink: React.FC<LinkProps> = ({
+    href,
+    children,
+    title,
+    ...props
+  }) => {
     if (!href) return <span>{children}</span>;
-    
-    const isExternal = href.startsWith('http') && !href.includes(repositoryUrl);
-    const isGitHubLink = href.startsWith('http') && href.includes('github.com');
-    
+
+    const isExternal = href.startsWith("http") && !href.includes(repositoryUrl);
+    const isGitHubLink = href.startsWith("http") && href.includes("github.com");
+
     return (
       <a
         href={href}
@@ -230,7 +216,9 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
         {...props}
       >
         {children}
-        {isExternal && !isGitHubLink && <ExternalLink className="inline h-3 w-3 ml-1" />}
+        {isExternal && !isGitHubLink && (
+          <ExternalLink className="inline h-3 w-3 ml-1" />
+        )}
       </a>
     );
   };
@@ -238,40 +226,65 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
   const CustomTable: React.FC<TableProps> = ({ children, ...props }) => {
     return (
       <div className="overflow-x-auto my-6">
-        <table className="min-w-full border-collapse border border-gray-200 dark:border-gray-700 rounded-lg" {...props}>
+        <table
+          className="min-w-full border-collapse border border-gray-200 dark:border-gray-700 rounded-lg"
+          {...props}
+        >
           {children}
         </table>
       </div>
     );
   };
 
-  const CustomTableHeader: React.FC<TableCellProps> = ({ children, ...props }) => {
+  const CustomTableHeader: React.FC<TableCellProps> = ({
+    children,
+    ...props
+  }) => {
     return (
-      <th className="px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-left font-semibold text-gray-900 dark:text-white" {...props}>
+      <th
+        className="px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-left font-semibold text-gray-900 dark:text-white"
+        {...props}
+      >
         {children}
       </th>
     );
   };
 
-  const CustomTableCell: React.FC<TableCellProps> = ({ children, ...props }) => {
+  const CustomTableCell: React.FC<TableCellProps> = ({
+    children,
+    ...props
+  }) => {
     return (
-      <td className="px-4 py-3 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300" {...props}>
+      <td
+        className="px-4 py-3 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300"
+        {...props}
+      >
         {children}
       </td>
     );
   };
 
-  const CustomBlockquote: React.FC<BlockquoteProps> = ({ children, ...props }) => {
+  const CustomBlockquote: React.FC<BlockquoteProps> = ({
+    children,
+    ...props
+  }) => {
     return (
-      <blockquote className="border-l-4 border-blue-500 pl-4 py-2 my-6 bg-blue-50 dark:bg-blue-900/20 italic text-gray-700 dark:text-gray-300 rounded-r" {...props}>
+      <blockquote
+        className="border-l-4 border-blue-500 pl-4 py-2 my-6 bg-blue-50 dark:bg-blue-900/20 italic text-gray-700 dark:text-gray-300 rounded-r"
+        {...props}
+      >
         {children}
       </blockquote>
     );
   };
 
-  const CustomHeading: React.FC<HeadingProps & { children: React.ReactNode }> = ({ level, children, ...props }) => {
-    const id = String(children).toLowerCase().replace(/[^\w]+/g, '-');
-    
+  const CustomHeading: React.FC<
+    HeadingProps & { children: React.ReactNode }
+  > = ({ level, children, ...props }) => {
+    const id = String(children)
+      .toLowerCase()
+      .replace(/[^\w]+/g, "-");
+
     const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
     const headingClasses = {
       1: "text-3xl font-bold mt-8 mb-4 text-gray-900 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2",
@@ -290,17 +303,30 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
   };
 
   // Custom paragraph component to handle alignment and badges
-  const CustomParagraph: React.FC<ParagraphProps> = ({ children, align, ...props }) => {
+  const CustomParagraph: React.FC<ParagraphProps> = ({
+    children,
+    align,
+    ...props
+  }) => {
     // Check if paragraph contains only images (badges/stats)
-    const isImageOnly = React.Children.toArray(children).every(child => 
-      typeof child === 'object' && child !== null && 'type' in child && child.type === 'img'
+    const isImageOnly = React.Children.toArray(children).every(
+      (child) =>
+        typeof child === "object" &&
+        child !== null &&
+        "type" in child &&
+        child.type === "img"
     );
-    
-    const alignClass = align === 'center' ? 'text-center' : '';
-    const imageOnlyClass = isImageOnly ? 'flex flex-wrap justify-center gap-2 items-center' : '';
-    
+
+    const alignClass = align === "center" ? "text-center" : "";
+    const imageOnlyClass = isImageOnly
+      ? "flex flex-wrap justify-center gap-2 items-center"
+      : "";
+
     return (
-      <p className={`mb-4 text-gray-700 dark:text-gray-300 leading-relaxed ${alignClass} ${imageOnlyClass}`} {...props}>
+      <p
+        className={`mb-4 text-gray-700 dark:text-gray-300 leading-relaxed ${alignClass} ${imageOnlyClass}`}
+        {...props}
+      >
         {children}
       </p>
     );
@@ -314,11 +340,17 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
     th: CustomTableHeader,
     td: CustomTableCell,
     blockquote: CustomBlockquote,
-    h1: (props: { children: React.ReactNode }) => <CustomHeading level={1} {...props} />,
-    h2: (props: { children: React.ReactNode }) => <CustomHeading level={2} {...props} />,
-    h3: (props: { children: React.ReactNode }) => <CustomHeading level={3} {...props} />,
+    h1: (props: { children: React.ReactNode }) => (
+      <CustomHeading level={1} {...props} />
+    ),
+    h2: (props: { children: React.ReactNode }) => (
+      <CustomHeading level={2} {...props} />
+    ),
+    h3: (props: { children: React.ReactNode }) => (
+      <CustomHeading level={3} {...props} />
+    ),
     h4: (props: { children: React.ReactNode; align?: string }) => {
-      if (props.align === 'center') {
+      if (props.align === "center") {
         return (
           <div className="text-center my-4">
             <CustomHeading level={4} {...props} />
@@ -327,16 +359,26 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
       }
       return <CustomHeading level={4} {...props} />;
     },
-    h5: (props: { children: React.ReactNode }) => <CustomHeading level={5} {...props} />,
-    h6: (props: { children: React.ReactNode }) => <CustomHeading level={6} {...props} />,
+    h5: (props: { children: React.ReactNode }) => (
+      <CustomHeading level={5} {...props} />
+    ),
+    h6: (props: { children: React.ReactNode }) => (
+      <CustomHeading level={6} {...props} />
+    ),
     p: CustomParagraph,
     ul: ({ children, ...props }: { children: React.ReactNode }) => (
-      <ul className="list-disc list-inside mb-4 space-y-2 text-gray-700 dark:text-gray-300 pl-4" {...props}>
+      <ul
+        className="list-disc list-inside mb-4 space-y-2 text-gray-700 dark:text-gray-300 pl-4"
+        {...props}
+      >
         {children}
       </ul>
     ),
     ol: ({ children, ...props }: { children: React.ReactNode }) => (
-      <ol className="list-decimal list-inside mb-4 space-y-2 text-gray-700 dark:text-gray-300 pl-4" {...props}>
+      <ol
+        className="list-decimal list-inside mb-4 space-y-2 text-gray-700 dark:text-gray-300 pl-4"
+        {...props}
+      >
         {children}
       </ol>
     ),
@@ -349,18 +391,30 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
       <hr className="my-8 border-gray-200 dark:border-gray-700" {...props} />
     ),
     details: ({ children, ...props }: { children: React.ReactNode }) => (
-      <details className="mb-4 border border-gray-200 dark:border-gray-700 rounded-lg" {...props}>
+      <details
+        className="mb-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+        {...props}
+      >
         {children}
       </details>
     ),
     summary: ({ children, ...props }: { children: React.ReactNode }) => (
-      <summary className="px-4 py-3 bg-gray-50 dark:bg-gray-800 cursor-pointer font-semibold text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" {...props}>
+      <summary
+        className="px-4 py-3 bg-gray-50 dark:bg-gray-800 cursor-pointer font-semibold text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+        {...props}
+      >
         {children}
       </summary>
     ),
     // Handle HTML elements that might come through rehype-raw
-    div: ({ children, ...props }: { children: React.ReactNode; align?: string }) => (
-      <div className={props.align === 'center' ? 'text-center' : ''} {...props}>
+    div: ({
+      children,
+      ...props
+    }: {
+      children: React.ReactNode;
+      align?: string;
+    }) => (
+      <div className={props.align === "center" ? "text-center" : ""} {...props}>
         {children}
       </div>
     ),
@@ -373,7 +427,7 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
         <div className="flex items-center space-x-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
             <FileText className="h-5 w-5 mr-2" />
-            README.md
+            {username}/ README.md
           </h2>
           <div className="text-sm text-gray-500 dark:text-gray-400">
             {Math.round(content.length / 1024)} KB
@@ -384,22 +438,22 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
           {/* View Mode Toggle */}
           <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
             <button
-              onClick={() => setViewMode('rendered')}
+              onClick={() => setViewMode("rendered")}
               className={`flex items-center px-3 py-1 text-sm rounded-md transition-colors ${
-                viewMode === 'rendered'
-                  ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                viewMode === "rendered"
+                  ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm"
+                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
               <Eye className="h-3 w-3 mr-1" />
               Preview
             </button>
             <button
-              onClick={() => setViewMode('raw')}
+              onClick={() => setViewMode("raw")}
               className={`flex items-center px-3 py-1 text-sm rounded-md transition-colors ${
-                viewMode === 'raw'
-                  ? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                viewMode === "raw"
+                  ? "bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm"
+                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
               <Code className="h-3 w-3 mr-1" />
@@ -422,7 +476,7 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
 
       {/* README Content */}
       <div className="min-h-96">
-        {viewMode === 'rendered' ? (
+        {viewMode === "rendered" ? (
           <div className="github-readme-content prose prose-lg max-w-none">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkBreaks]}
@@ -435,13 +489,19 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
         ) : (
           <div className="relative">
             <div className="flex items-center justify-between bg-gray-50 dark:bg-gray-800 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-              <span className="text-sm text-gray-600 dark:text-gray-400">Raw Markdown</span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Raw Markdown
+              </span>
               <button
                 onClick={() => copyToClipboard(content)}
                 className="flex items-center px-2 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 title="Copy raw content"
               >
-                {copied ? <Check className="h-4 w-4 mr-1" /> : <Copy className="h-4 w-4 mr-1" />}
+                {copied ? (
+                  <Check className="h-4 w-4 mr-1" />
+                ) : (
+                  <Copy className="h-4 w-4 mr-1" />
+                )}
                 Copy
               </button>
             </div>
