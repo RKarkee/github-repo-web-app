@@ -24,8 +24,8 @@ const RepositoryDetail: React.FC = () => {
 
   if (isLoadingRepo) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 p-6">
-        <div className="max-w-6xl mx-auto">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 px-2 py-4 sm:p-6">
+        <div className="max-w-4xl sm:max-w-6xl mx-auto">
           <LoadingSpinner message="Loading repository details..." />
         </div>
       </div>
@@ -34,8 +34,8 @@ const RepositoryDetail: React.FC = () => {
 
   if (repoError || !repository) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 p-6">
-        <div className="max-w-6xl mx-auto">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 px-2 py-4 sm:p-6">
+        <div className="max-w-4xl sm:max-w-6xl mx-auto">
           <div className="mb-6">
             <Link
               to="/"
@@ -54,8 +54,8 @@ const RepositoryDetail: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 p-6">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 px-2 py-4 sm:p-6">
+      <div className="max-w-4xl sm:max-w-6xl mx-auto space-y-4 sm:space-y-6">
         {/* Back Button */}
         <div>
           <Link
@@ -68,26 +68,32 @@ const RepositoryDetail: React.FC = () => {
         </div>
 
         {/* Repository Header */}
-        <RepositoryHeader repository={repository} />
+        <div className="w-full">
+          <RepositoryHeader repository={repository} />
+        </div>
 
-        {/* Repository Stats */}
-        <RepositoryStats repository={repository} />
-
-        {/* README Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-              README.md
-            </h2>
+        {/* Responsive layout for stats and readme */}
+        <div className="flex flex-col lg:flex-row gap-4">
+          <div className="w-full lg:w-1/3 order-2 lg:order-1">
+            <RepositoryStats repository={repository} />
           </div>
-          <div className="p-6">
-            <ReadmeRenderer
-              readme={readme}
-              isLoading={isLoadingReadme}
-              error={readmeError}
-              repositoryUrl={repository.html_url}
-              username={repository.name}
-            />
+          <div className="w-full lg:w-2/3 order-1 lg:order-2">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+              <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  README.md
+                </h2>
+              </div>
+              <div className="p-4 sm:p-6">
+                <ReadmeRenderer
+                  readme={readme}
+                  isLoading={isLoadingReadme}
+                  error={readmeError}
+                  repositoryUrl={repository.html_url}
+                  username={repository.name}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

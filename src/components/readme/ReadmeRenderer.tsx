@@ -10,16 +10,17 @@ import LoadingSpinner from "../../common/loadingSpinner";
 // Import highlight.js CSS
 import "highlight.js/styles/github-dark.css";
 import { JSX } from "react/jsx-runtime";
-import {     ReadmeRendererProps,
-    CodeBlockProps,
-    ImageProps,
-    LinkProps,
-    TableProps,
-    TableCellProps,
-    BlockquoteProps,
-    HeadingProps,
-    ParagraphProps } from "./ReadmeRenderer.interface";
-
+import {
+  ReadmeRendererProps,
+  CodeBlockProps,
+  ImageProps,
+  LinkProps,
+  TableProps,
+  TableCellProps,
+  BlockquoteProps,
+  HeadingProps,
+  ParagraphProps,
+} from "./ReadmeRenderer.interface";
 
 const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
   readme,
@@ -423,8 +424,8 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
   return (
     <div className="space-y-6">
       {/* README Controls */}
-      <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-4">
-        <div className="flex items-center space-x-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between border-b border-gray-200 dark:border-gray-700 pb-4 gap-3">
+        <div className="flex items-center flex-wrap gap-2 sm:gap-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
             <FileText className="h-5 w-5 mr-2" />
             {username}/ README.md
@@ -433,8 +434,7 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
             {Math.round(content.length / 1024)} KB
           </div>
         </div>
-
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           {/* View Mode Toggle */}
           <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
             <button
@@ -460,7 +460,6 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
               Raw
             </button>
           </div>
-
           {/* External Link */}
           <a
             href={`${repositoryUrl}/blob/HEAD/README.md`}
@@ -477,7 +476,7 @@ const ReadmeRenderer: React.FC<ReadmeRendererProps> = ({
       {/* README Content */}
       <div className="min-h-96">
         {viewMode === "rendered" ? (
-          <div className="github-readme-content prose prose-lg max-w-none">
+          <div className="github-readme-content prose prose-lg max-w-none overflow-x-auto break-words">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkBreaks]}
               rehypePlugins={[rehypeHighlight, rehypeRaw]}
