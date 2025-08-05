@@ -87,32 +87,33 @@ const RepositoryStats: React.FC<RepositoryStatsProps> = ({ repository }) => {
         })}
       </div>
 
-      {/* Additional Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+   
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-0 md:gap-x-6 pt-6 border-t border-gray-200 dark:border-gray-700">
         <div className="flex items-center space-x-3">
-          <GitBranch className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+          <GitBranch className="h-5 w-5 text-gray-600 dark:text-gray-400 flex-shrink-0" />
           <div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Default Branch
             </div>
-            <div className="font-medium text-gray-900 dark:text-white">
+            <div className="font-medium text-gray-900 dark:text-white break-all">
               {repository.default_branch}
             </div>
           </div>
         </div>
 
-        <div className="flex justify-end items-end space-x-3">
-          <Calendar className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+        <div className="flex items-center space-x-3 md:justify-end">
+          <Calendar className="h-5 w-5 text-gray-600 dark:text-gray-400 flex-shrink-0" />
           <div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
               Last Updated
             </div>
-            <div className="font-medium text-gray-900 dark:text-white">
+            <div className="font-medium text-gray-900 dark:text-white break-all">
               {formatDate(repository.updated_at)}
             </div>
           </div>
         </div>
       </div>
+
     </div>
   );
 };

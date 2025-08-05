@@ -1,7 +1,10 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { useRepository, useRepositoryReadme } from "../../../hooks/useQueryHooks";
+import {
+  useRepository,
+  useRepositoryReadme,
+} from "../../../hooks/useQueryHooks";
 import LoadingSpinner from "../../../common/loadingSpinner";
 import ErrorMessage from "../../../common/errorMessage";
 import RepositoryHeader from "../repositoryHeader";
@@ -73,26 +76,25 @@ const RepositoryDetail: React.FC = () => {
         </div>
 
         {/* Responsive layout for stats and readme */}
-        <div className="flex flex-col lg:flex-row gap-4">
-          <div className="w-full lg:w-1/3 order-2 lg:order-1">
-            <RepositoryStats repository={repository} />
-          </div>
-          <div className="w-full lg:w-2/3 order-1 lg:order-2">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-              <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  README.md
-                </h2>
-              </div>
-              <div className="p-4 sm:p-6">
-                <ReadmeRenderer
-                  readme={readme}
-                  isLoading={isLoadingReadme}
-                  error={readmeError}
-                  repositoryUrl={repository.html_url}
-                  username={repository.name}
-                />
-              </div>
+        {/* Stack Stats above README */}
+        <div className="w-full">
+          <RepositoryStats repository={repository} />
+        </div>
+        <div className="w-full">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                README.md
+              </h2>
+            </div>
+            <div className="p-4 sm:p-6">
+              <ReadmeRenderer
+                readme={readme}
+                isLoading={isLoadingReadme}
+                error={readmeError}
+                repositoryUrl={repository.html_url}
+                username={repository.name}
+              />
             </div>
           </div>
         </div>
